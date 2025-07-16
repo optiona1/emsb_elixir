@@ -42,7 +42,11 @@ defmodule EmsbElixir.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:ex_aws, "~> 2.4"},
+      {:ex_aws_s3, "~> 2.3"},
+      {:hackney, "~> 1.9"},
+      {:sweet_xml, "~> 0.7"}  # 用于 XML 解析
     ]
   end
 

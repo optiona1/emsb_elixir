@@ -9,6 +9,12 @@ defmodule EmsbElixirWeb.Router do
     pipe_through :api
   end
 
+  scope "/", EmsbElixirWeb do
+    pipe_through :api
+
+    get "/healthz", HealthController, :check
+  end
+
   # Enable Swoosh mailbox preview in development
   if Application.compile_env(:emsb_elixir, :dev_routes) do
 

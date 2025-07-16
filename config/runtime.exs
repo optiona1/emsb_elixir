@@ -20,6 +20,22 @@ if System.get_env("PHX_SERVER") do
   config :emsb_elixir, EmsbElixirWeb.Endpoint, server: true
 end
 
+# minio
+minio_endpoint = System.get_env("MINIO_ENDPOINT", "http://localhost:9000")
+minio_access_key = System.get_env("MINIO_ACCESS_KEY", "minioadmin")
+minio_secret_key = System.get_env("MINIO_SECRET_KEY", "minioadmin")
+
+config :ex_aws,
+  access_key_id: minio_access_key,
+  secret_access_key: minio_secret_key,
+  s3: [
+    scheme: URI.parse(minio_endpoint).scheme,
+    host: URI.parse(minio_endpoint).host,
+    port: URI.parse(minio_endpoint).port || 9000,
+    region: "us-east-1"  # MinIO 默认 region
+  ],
+  debug_requests: true
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
