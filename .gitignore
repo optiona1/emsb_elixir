@@ -24,4 +24,11 @@ erl_crash.dump
 
 # Ignore package tarball (built via "mix hex.build").
 emsb_elixir-*.tar
-
+/node_modules
+/assets/node_modules
+/.git
+Dockerfile
+docker-compose.yml
+.env
+*.log
+*.dump

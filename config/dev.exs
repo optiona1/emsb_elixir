@@ -1,11 +1,21 @@
 import Config
 
+db_host = System.get_env("DB_HOST", "db")
+db_port = System.get_env("DB_PORT", "3306")
+db_user = System.get_env("DB_USER", "root")
+db_pass = System.get_env("DB_PASSWORD", "root")
+db_name = System.get_env("DB_NAME", "emsb_elixir_#{config_env()}")
+# IO.inspect(db_user, label: "DB_USER")
+# IO.inspect(db_host, label: "DB_HOST")
+# IO.inspect(db_pass, label: "DB_PASSWORD")
+# IO.inspect(db_name, label: "DB_NAME")
+# IO.inspect(db_port, label: "DB_PORT")
 # Configure your database
 config :emsb_elixir, EmsbElixir.Repo,
-  username: "deploy",
-  password: "DeployPass123",
-  hostname: "localhost",
-  database: "app_prod",
+  username: db_user,
+  password: db_pass,
+  hostname: db_host,
+  database: db_name,
   port: 3306,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,

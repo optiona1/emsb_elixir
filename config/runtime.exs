@@ -20,29 +20,34 @@ if System.get_env("PHX_SERVER") do
   config :emsb_elixir, EmsbElixirWeb.Endpoint, server: true
 end
 
-# minio
-minio_endpoint = System.get_env("MINIO_ENDPOINT", "http://localhost:9000")
-minio_access_key = System.get_env("MINIO_ACCESS_KEY", "minioadmin")
-minio_secret_key = System.get_env("MINIO_SECRET_KEY", "minioadmin")
-
-config :ex_aws,
-  access_key_id: minio_access_key,
-  secret_access_key: minio_secret_key,
-  s3: [
-    scheme: URI.parse(minio_endpoint).scheme,
-    host: URI.parse(minio_endpoint).host,
-    port: URI.parse(minio_endpoint).port || 9000,
-    region: "us-east-1"  # MinIO 默认 region
-  ],
-  debug_requests: true
 
 if config_env() == :prod do
+
+  # minio
+  minio_endpoint = System.get_env("MINIO_ENDPOINT", "http://localhost:9000")
+  minio_access_key = System.get_env("MINIO_ACCESS_KEY", "minioadmin")
+  minio_secret_key = System.get_env("MINIO_SECRET_KEY", "minioadmin")
+
+  config :ex_aws,
+    access_key_id: minio_access_key,
+    secret_access_key: minio_secret_key,
+    s3: [
+      scheme: URI.parse(minio_endpoint).scheme,
+      host: URI.parse(minio_endpoint).host,
+      port: URI.parse(minio_endpoint).port || 9000,
+      region: "us-east-1"  # MinIO 默认 region
+    ],
+    debug_requests: true
+  # 获取数据库配置
+  db_host = System.get_env("DB_HOST", "db")
+  db_port = System.get_env("DB_PORT", "3306")
+  db_user = System.get_env("DB_USER", "root")
+  db_pass = System.get_env("DB_PASSWORD", "root")
+  db_name = System.get_env("DB_NAME", "emsb_elixir_#{config_env()}")
+
   database_url =
     System.get_env("DATABASE_URL") ||
-      raise """
-      environment variable DATABASE_URL is missing.
-      For example: ecto://USER:PASS@HOST/DATABASE
-      """
+    "mysql://#{db_user}:#{db_pass}@#{db_host}:#{db_port}/#{db_name}"
 
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
