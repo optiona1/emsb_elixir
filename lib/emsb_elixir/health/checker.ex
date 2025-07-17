@@ -43,4 +43,3 @@ defmodule EmsbElixir.Health.Checker do
     end
   end
 end
-

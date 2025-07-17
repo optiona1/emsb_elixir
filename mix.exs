@@ -46,7 +46,9 @@ defmodule EmsbElixir.MixProject do
       {:ex_aws, "~> 2.4"},
       {:ex_aws_s3, "~> 2.3"},
       {:hackney, "~> 1.9"},
-      {:sweet_xml, "~> 0.7"}  # 用于 XML 解析
+      # 用于 XML 解析
+      {:sweet_xml, "~> 0.7"},
+      {:joken, "~> 2.0"}
     ]
   end
 

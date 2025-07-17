@@ -20,9 +20,7 @@ if System.get_env("PHX_SERVER") do
   config :emsb_elixir, EmsbElixirWeb.Endpoint, server: true
 end
 
-
 if config_env() == :prod do
-
   # minio
   minio_endpoint = System.get_env("MINIO_ENDPOINT", "http://localhost:9000")
   minio_access_key = System.get_env("MINIO_ACCESS_KEY", "minioadmin")
@@ -35,9 +33,11 @@ if config_env() == :prod do
       scheme: URI.parse(minio_endpoint).scheme,
       host: URI.parse(minio_endpoint).host,
       port: URI.parse(minio_endpoint).port || 9000,
-      region: "us-east-1"  # MinIO 默认 region
+      # MinIO 默认 region
+      region: "us-east-1"
     ],
     debug_requests: true
+
   # 获取数据库配置
   db_host = System.get_env("DB_HOST", "db")
   db_port = System.get_env("DB_PORT", "3306")
@@ -47,7 +47,7 @@ if config_env() == :prod do
 
   database_url =
     System.get_env("DATABASE_URL") ||
-    "mysql://#{db_user}:#{db_pass}@#{db_host}:#{db_port}/#{db_name}"
+      "mysql://#{db_user}:#{db_pass}@#{db_host}:#{db_port}/#{db_name}"
 
   maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
@@ -73,6 +73,10 @@ if config_env() == :prod do
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :emsb_elixir, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
+
+  config :emsb_elixir,
+    access_token_secret_key:
+      System.get_env("ACCESS_TOKEN_SECRET_KEY") || "dev_secret_please_change_me"
 
   config :emsb_elixir, EmsbElixirWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],

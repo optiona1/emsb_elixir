@@ -1,4 +1,3 @@
-
 defmodule EmsbElixirWeb.HealthController do
   use EmsbElixirWeb, :controller
 
@@ -11,11 +10,11 @@ defmodule EmsbElixirWeb.HealthController do
     health_status = Checker.check_all()
 
     case overall_status(health_status) do
-      :ok -> 
+      :ok ->
         conn
         |> put_status(200)
         |> json(render_health(health_status))
-      
+
       :error ->
         conn
         |> put_status(503)
